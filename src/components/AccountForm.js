@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 const API_ROOT = `https://strangers-things.herokuapp.com/api/2108-LSU-RM-WEB-PT/users/`;
-const API_REGISTER = `${API_ROOT}register`
-const API_LOGIN = `${API_ROOT}login`
-const API_USER = `${API_ROOT}me`
+const API_POSTS = `${API_ROOT}posts`
+const API_REGISTER = `${API_ROOT}register`;
+const API_LOGIN = `${API_ROOT}login`;
+const API_USER = `${API_ROOT}me`;
 
-const AccountForm = ({ action, setToken }) => {
+const AccountForm = ({ action, setToken, setUserData }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const isLogin = action === 'login';
@@ -18,13 +19,13 @@ const AccountForm = ({ action, setToken }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(`user name: ${username}`);
-    console.log(`password: ${password}`);
+    // console.log(`user name: ${username}`);
+    // console.log(`password: ${password}`);
     try {
       const response = await fetch(actionURL, {
         method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json' 
+        headers: {
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           user: {
@@ -33,8 +34,11 @@ const AccountForm = ({ action, setToken }) => {
           },
         }),
       });
+
       const { data } = await response.json();
+      // console.log(data);
       const token = data.token;
+      // console.log(token);
       if (token) {
         setToken(token);
         const userResponse = await fetch(API_USER, {
@@ -43,33 +47,32 @@ const AccountForm = ({ action, setToken }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const { data } = await userResponse.json()
+        const { data } = await userResponse.json();
+        // console.log(data);
         setUserData(data);
         history.push('/');
-        console.log(data);
       }
-      console.log(token);
     } catch (error) {
       console.error(error);
     }
   };
   return (
     <>
-      <h4>Register</h4>
+      <h4>{title}</h4>
       <form onSubmit={handleSubmit}>
         <input
-          type='text'
-          placeholder='username'
+          type="text"
+          placeholder="username"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         ></input>
         <input
-          type='password'
-          placeholder='password'
+          type="password"
+          placeholder="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         ></input>
-        <button type='submit'>{title}</button>
+        <button type="submit">{title}</button>
       </form>
       <Link to={`${oppositeAction}`}>{oppositeTitle}</Link>
     </>
