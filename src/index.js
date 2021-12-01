@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { callApi } from './api';
-import { AccountForm, Posts, SinglePost, Navbar } from './components';
+import { AccountForm, Posts, SinglePost, Navbar, PostForm } from './components';
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -30,21 +30,33 @@ const App = () => {
     const posts = await fetchPosts();
     setPosts(posts);
     if (!token) {
-      localStorage.getItem('token');
+      setToken(localStorage.getItem('token'));
       return;
     }
     const data = await fetchUserData(token);
+    console.log('data:', data)
     if (data && data.username) {
       setUserData(data);
     }
   }, [token]);
 
+//   useEffect(async() => {
+//     const posts = await fetchPosts();
+//     if (posts) {
+//         setPosts(posts);
+//     };
+// }, []);
+console.log('token:', token)
   return (
     <>
     <Navbar />
       <h1>Stranger's Things</h1>
       <Route exact path="/">
+        <Posts posts={posts} />
+      </Route>
+      <Route exact path="/profile">
         {userData.username && <div>Hello {userData.username}</div>}
+        {token ? <PostForm /> : ''}
       </Route>
       <Route exact path="/posts">
         <Posts posts={posts} />
@@ -60,11 +72,11 @@ const App = () => {
         />
       </Route>
       <Route path="/login">
-        <AccountForm
+        {!token ? <AccountForm
           action="login"
           setToken={setToken}
           setUserData={setUserData}
-        />
+        /> : 'You are already logged in!'}
       </Route>
     </>
   );

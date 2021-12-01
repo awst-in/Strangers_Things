@@ -13,13 +13,14 @@ const AccountForm = ({ action, setToken, setUserData }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('clicked')
     const data = await callApi({
       url: `/users/${action}`,
       body: { user: { username, password } },
       method: 'POST',
     });
     const token = data?.data?.token;
-
+    console.log(token);
     if (token) {
       localStorage.setItem('token', token);
       setUsername('');
@@ -28,6 +29,8 @@ const AccountForm = ({ action, setToken, setUserData }) => {
       history.push('/');
     }
   };
+
+
   return (
     <>
       <h2>{title}</h2>
@@ -35,12 +38,14 @@ const AccountForm = ({ action, setToken, setUserData }) => {
         <input
           type="text"
           placeholder="username"
+          value={username}
           required
           onChange={(event) => setUsername(event.target.value)}
         ></input>
         <input
           type="password"
           placeholder="password"
+          value={password}
           onChange={(event) => setPassword(event.target.value)}
         ></input>
         <button type="submit">{title}</button>
