@@ -1,10 +1,14 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 
 const SinglePost = ({ posts }) => {
   const { postId } = useParams();
+  const history = useHistory();
+
   const post = posts.find((post) => postId === post._id);
   console.log('SINGLE POST', post);
+
+
   return (
     <>
       {post ? (
@@ -14,6 +18,7 @@ const SinglePost = ({ posts }) => {
           <p>Price: {post.price}</p>
           <p>Location: {post.location}</p>
           <p>Delivers: {post.willDeliver ? 'Yes' : 'No'}</p>
+          <button onClick={() => history.push(`${postId}/edit`)}>Edit</button>
         </div>
       ) : (
         ''

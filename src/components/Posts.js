@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { DeletePost } from '.';
 
 const styles = {
   searchContainer: {
@@ -61,6 +62,7 @@ const Posts = ({ posts }) => {
             <button onClick={() => history.push(`/posts/${post._id}`)}>
               View Post
             </button>
+            <DeletePost />
           </div>
         ))
       ) : (

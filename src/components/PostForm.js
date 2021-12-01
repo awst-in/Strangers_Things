@@ -1,49 +1,73 @@
 import React, { useState } from 'react';
-// import { callApi } from '../api';
-const BASE_URL = 'https://strangers-things.herokuapp.com/api/2108-LSU-RM-WEB-PT/posts'
+import { callApi } from '../api';
+import { useHistory, useParams } from 'react-router-dom';
 
-const PostForm = (props) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [priceOfItem, setPriceOfItem] = useState('');
-  const [location, setLocation] = useState('');
-  const [willDeliver, setWillDeliver] = useState(false);
+const PostForm = ({ token, setPosts, posts, action }) => {
+    const { postId } = useParams();
+    const history = useHistory();
+    const [newPost, setNewPost] = useState({
+        title: '',
+        description: '',
+        price: 0,
+        location: '',
+        willDeliver: false,
+    });
+    const isEdit = action === 'edit';
+    const title = isEdit ? 'Edit this post' : 'Add a new post';
+    const method = isEdit ? 'PATCH' : 'POST';
+    const API_URL = isEdit ? `/posts/${postId}` : `/posts`;
 
   const handleSubmit = async (event) => {
 
     event.preventDefault();
+    try {
+        console.log('submitted')
+        const {
+            data: { post },
+        } = await callApi({
+            url: API_URL,
+            method: method,
+            body: {
+                post: {
+                title: newPost.title,
+                description: newPost.description,
+                price: newPost.price,
+                location: newPost.location,
+                willDeliver: newPost.willDeliver
+                },
+            },
+            token,
+            });
+        if(isEdit) {
+            const filteredPosts = posts.filter((post)=> post._id !== postId);
+            setPosts([...filteredPosts, post]);
+        } else {
+            setPosts([...posts, post]);
+        }
+        history.push('/posts');
+    } catch (error) {
+        console.error('error adding a post: ', error)
+    }
+  };
 
-    const token = localStorage.getItem('token');
+  const postFieldChange = (property) => (event) => {
 
-    const response = await fetch(BASE_URL, {
-        method: 'POST',
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            post: {
-                title: title,
-                description: description,
-                price: priceOfItem,
-                location: location,
-                willDeliver: willDeliver
-            }
-        })
-    })
-    const data = await response.json();
-
-    console.log("This is our post form's data", data);
-  }
+    if(property === 'willDeliver'){
+        setNewPost({...newPost, [property]: event.target.checked})
+    } else {
+        setNewPost({...newPost, [property]: event.target.value});
+    }
+};
 
   return (
     <div>
+        <h2>{title}</h2>
       <form onSubmit={handleSubmit}>
         <input
           type='text'
           placeholder='Title Of Post'
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          value={newPost.title}
+          onChange={postFieldChange('title')}
         ></input>
         <br />
 
@@ -51,46 +75,35 @@ const PostForm = (props) => {
           type='text'
           rows='6'
           placeholder='Description'
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
+          value={newPost.description}
+          onChange={postFieldChange('description')}
         ></textarea>
         <br />
 
         <input
-          type='text'
+          type='number'
           placeholder='Price of Item'
-          value={priceOfItem}
-          onChange={(event) => setPriceOfItem(event.target.value)}
+          value={newPost.price}
+          onChange={postFieldChange('price')}
         ></input>
         <br />
 
         <input
           type='text'
           placeholder='Location'
-          value={location}
-          onChange={(event) => setLocation(event.target.value)}
+          value={newPost.location}
+          onChange={postFieldChange('location')}
+        ></input>
+        <br />
+        <label>Deliver?</label>
+        <input
+          type='checkbox'
+          value={newPost.willDeliver}
+          onChange={postFieldChange('willDeliver')}
         ></input>
         <br />
 
-        <label>Will Deliver?</label>
-        <br />
-        <label htmlFor='willDeliverTrue'>True</label>
-        <input
-          type='radio'
-          id='willDeliverTrue'
-          value={true}
-          onChange={(event) => setWillDeliver(event.target.value)}
-        ></input>
-        <label htmlFor='willDeliverFalse'>False</label>
-        <input
-          type='radio'
-          id='willDeliverFalce'
-          value={false}
-          onChange={(event) => setWillDeliver(event.target.value)}
-        ></input>
-        <br />
-
-        <button type='submit'>Create New Post</button>
+        <button type='submit'>{title}</button>
       </form>
     </div>
   );
