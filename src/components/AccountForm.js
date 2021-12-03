@@ -7,13 +7,12 @@ const AccountForm = ({ action, setToken, setUserData }) => {
   const [password, setPassword] = useState('');
   const isLogin = action === 'login';
   const title = isLogin ? 'Login' : 'Register';
-  const oppositeTitle = isLogin ? 'Register' : 'Login';
+  const oppositeTitle = isLogin ? 'New user?' : 'Already have an account?';
   const oppositeAction = isLogin ? 'register' : 'login';
   const history = useHistory();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('clicked')
     const data = await callApi({
       url: `/users/${action}`,
       body: { user: { username, password } },

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
+import { DeletePost, SendMessage } from '.';
 
-const SinglePost = ({ posts }) => {
+const SinglePost = ({ posts, token, setPosts }) => {
   const { postId } = useParams();
   const history = useHistory();
 
   const post = posts.find((post) => postId === post._id);
   console.log('SINGLE POST', post);
-
 
   return (
     <>
@@ -19,6 +19,8 @@ const SinglePost = ({ posts }) => {
           <p>Location: {post.location}</p>
           <p>Delivers: {post.willDeliver ? 'Yes' : 'No'}</p>
           <button onClick={() => history.push(`${postId}/edit`)}>Edit</button>
+          {token ? <DeletePost token={token} postId={postId}/> : ''}
+          {token ? <SendMessage token={token} postId={postId}/> : ''}
         </div>
       ) : (
         ''

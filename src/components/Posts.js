@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { DeletePost } from '.';
+import { useHistory, useParams } from 'react-router-dom';
+
 
 const styles = {
   searchContainer: {
@@ -32,11 +32,18 @@ const postMatches = (post, searchTerm) => {
   }
 };
 
-const Posts = ({ posts }) => {
+const Posts = ({ posts, token }) => {
   const history = useHistory();
+  const { postId } = useParams();
+
   const [searchTerm, setSearchTerm] = useState('');
 
   const postsToDisplay = posts.filter((post) => postMatches(post, searchTerm));
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    {token ? <SendMessage /> : ''}
+  }
   return (
     <>
       <div style={styles.searchContainer}>
@@ -62,7 +69,9 @@ const Posts = ({ posts }) => {
             <button onClick={() => history.push(`/posts/${post._id}`)}>
               View Post
             </button>
-            <DeletePost />
+            {token ? <button onClick={handleClick}>
+              Send Message
+            </button> : ''}
           </div>
         ))
       ) : (

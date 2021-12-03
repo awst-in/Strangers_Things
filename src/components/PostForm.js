@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 const PostForm = ({ token, setPosts, posts, action }) => {
     const { postId } = useParams();
     const history = useHistory();
+
     const [newPost, setNewPost] = useState({
         title: '',
         description: '',
@@ -46,7 +47,7 @@ const PostForm = ({ token, setPosts, posts, action }) => {
         }
         history.push('/posts');
     } catch (error) {
-        console.error('error adding a post: ', error)
+        console.error('error adding a post: ', error);
     }
   };
 
@@ -103,7 +104,7 @@ const PostForm = ({ token, setPosts, posts, action }) => {
         ></input>
         <br />
 
-        <button type='submit'>{title}</button>
+        {token ? <button type='submit'>{title}</button> : ''}
       </form>
     </div>
   );

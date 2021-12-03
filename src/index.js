@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { callApi } from './api';
-import { AccountForm, Posts, SinglePost, Navbar, PostForm } from './components';
+import { AccountForm, Posts, SinglePost, Navbar, PostForm, SendMessage, Profile } from './components';
 
 const App = () => {
   const [token, setToken] = useState('');
   const [userData, setUserData] = useState({});
   const [posts, setPosts] = useState([]);
+  const [messages, setMessages] = useState(['message 1', 'message 2']);
+
 
   const fetchUserData = async (token) => {
     const { data } = await callApi({
@@ -25,6 +27,7 @@ const App = () => {
     });
     return posts;
   };
+
 
   useEffect(async () => {
     const posts = await fetchPosts();
@@ -44,26 +47,28 @@ const App = () => {
 
   return (
     <>
-      <Navbar />
-      <Link to='/posts/new'>Add New Post</Link>
+      <Navbar token={token} setToken={setToken} posts={setPosts}/>
       <Switch>
         <Route exact path='/'>
-          <Posts posts={posts} />
+          <Posts posts={posts} token={token}/>
         </Route>
         <Route exact path='/profile'>
-          {userData.username && <div>Hello {userData.username}</div>}
+          {userData.username && <><div>Hello {userData.username}</div><Profile /></>}
         </Route>
         <Route exact path='/posts'>
-          <Posts posts={posts} />
+          <Posts posts={posts} token={token} />
         </Route>
         <Route path='/posts/new'>
-          {token ? <PostForm token={token} setPosts={setPosts} posts={posts} action='add' /> : ''}
+          {token ? <PostForm token={token} setPosts={setPosts} posts={posts} action='add' /> : 'You are not logged in!'}
         </Route>
         <Route path='/posts/:postId/edit'>
           {token ? <PostForm token={token} setPosts={setPosts} posts={posts} action='edit' /> : ''}
         </Route>
         <Route path='/posts/:postId'>
-          <SinglePost posts={posts} />
+          <SinglePost posts={posts} token={token} />
+        </Route>
+        <Route path='/posts/:postId/messages'>
+          <SendMessage posts={posts} token={token} messages={messages} setMessages={setMessages}/>
         </Route>
         <Route path='/register'>
           <AccountForm action='register' setToken={setToken} setUserData={setUserData} />
@@ -72,7 +77,10 @@ const App = () => {
           {!token ? (
             <AccountForm action='login' setToken={setToken} setUserData={setUserData} />
           ) : (
-            'You are already logged in!'
+            <>
+            <div>You are already logged in!</div>
+            <br />
+            </>
           )}
         </Route>
       </Switch>
