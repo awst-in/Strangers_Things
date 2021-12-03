@@ -18,7 +18,7 @@ const SinglePost = ({ posts, token, setPosts }) => {
           <p>Price: {post.price}</p>
           <p>Location: {post.location}</p>
           <p>Delivers: {post.willDeliver ? 'Yes' : 'No'}</p>
-          <button onClick={() => history.push(`${postId}/edit`)}>Edit</button>
+          {token ? <button onClick={() => history.push(`${postId}/edit`)}>Edit</button> : ''}
           {token ? <DeletePost token={token} postId={postId}/> : ''}
           {token ? <SendMessage token={token} postId={postId}/> : ''}
         </div>

@@ -31,11 +31,11 @@ const SendMessage = ({ token, action, messages, setMessages }) => {
 
   return (
     <>
-      <form>
+      {token ? <form>
         <textarea type='text' rows='3' placeholder='Message'></textarea>
         <br />
         <button onClick={handleSendMessage}>Send</button>
-      </form>
+      </form> : ''}
     </>
   );
 };

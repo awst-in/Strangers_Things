@@ -68,7 +68,7 @@ const App = () => {
           <SinglePost posts={posts} token={token} />
         </Route>
         <Route path='/posts/:postId/messages'>
-          <SendMessage posts={posts} token={token} messages={messages} setMessages={setMessages}/>
+          {token ? <SendMessage posts={posts} token={token} messages={messages} setMessages={setMessages}/> : ''}
         </Route>
         <Route path='/register'>
           <AccountForm action='register' setToken={setToken} setUserData={setUserData} />
