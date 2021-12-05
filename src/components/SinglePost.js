@@ -1,6 +1,9 @@
 import React from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { DeletePost, SendMessage } from '.';
+import { Button } from 'react-bootstrap'
+
+
 
 const SinglePost = ({ posts, token, setPosts }) => {
   const { postId } = useParams();
@@ -12,15 +15,18 @@ const SinglePost = ({ posts, token, setPosts }) => {
   return (
     <>
       {post ? (
+
         <div>
           <h3>{post.title}</h3>
           <p>Posted by: {post.author.username}</p>
           <p>Price: {post.price}</p>
           <p>Location: {post.location}</p>
           <p>Delivers: {post.willDeliver ? 'Yes' : 'No'}</p>
-          {token ? <button onClick={() => history.push(`${postId}/edit`)}>Edit</button> : ''}
-          {token ? <DeletePost token={token} postId={postId}/> : ''}
-          {token ? <SendMessage token={token} postId={postId}/> : ''}
+          <Button variant='secondary' onClick={() => history.push(`${postId}/edit`)}>Edit</Button>{' '}
+          <DeletePost token={token} postId={postId} setPosts={setPosts}/>
+          {token ? <>
+          <SendMessage token={token} postId={postId}/>
+          </> : ''}
         </div>
       ) : (
         ''

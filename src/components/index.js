@@ -1,7 +1,7 @@
 export { default as AccountForm } from "./AccountForm"
 export { default as Posts } from "./Posts"
 export { default as SinglePost } from "./SinglePost"
-export { default as Navbar } from "./Navbar"
+export { default as Navigation } from "./Navigation"
 export { default as PostForm } from "./PostForm"
 export { default as DeletePost } from "./DeletePost"
 export { default as SendMessage } from "./SendMessage"

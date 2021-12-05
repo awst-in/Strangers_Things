@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { callApi } from '../api';
+import { Button } from 'react-bootstrap'
 
-const DeletePost = ({ token }) => {
+const DeletePost = ({ token, setPosts }) => {
   const history = useHistory();
   const { postId } = useParams();
 
@@ -22,9 +23,10 @@ const DeletePost = ({ token }) => {
       console.error('Error deleting a post:', error);
     }
   };
+  
   return (
     <>
-      <button onClick={handleClick}>Delete Post</button>
+      <Button variant='secondary' onClick={handleClick}>Delete Post</Button>
     </>
   );
 };

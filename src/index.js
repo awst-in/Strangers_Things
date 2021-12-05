@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { callApi } from './api';
-import { AccountForm, Posts, SinglePost, Navbar, PostForm, SendMessage, Profile } from './components';
+import { AccountForm, Posts, SinglePost, Navigation, PostForm, SendMessage, Profile, Search } from './components';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const [token, setToken] = useState('');
   const [userData, setUserData] = useState({});
   const [posts, setPosts] = useState([]);
-  const [messages, setMessages] = useState(['message 1', 'message 2']);
+  const [messages, setMessages] = useState([]);
 
 
   const fetchUserData = async (token) => {
@@ -47,13 +48,13 @@ const App = () => {
 
   return (
     <>
-      <Navbar token={token} setToken={setToken} posts={setPosts}/>
+      <Navigation token={token} setToken={setToken} setPosts={setPosts}/>
       <Switch>
         <Route exact path='/'>
           <Posts posts={posts} token={token}/>
         </Route>
         <Route exact path='/profile'>
-          {userData.username && <><div>Hello {userData.username}</div><Profile /></>}
+          {userData.username && <><div>Hello {userData.username}</div><Profile messages={messages} token={token}/></>}
         </Route>
         <Route exact path='/posts'>
           <Posts posts={posts} token={token} />

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-
+import { Card, Button } from 'react-bootstrap';
 
 const styles = {
   searchContainer: {
     display: 'flex',
     justifyContent: 'center',
-    padding: '16px',
+    padding: 0,
     alignItems: 'center',
   },
   searchInput: {
@@ -32,7 +32,7 @@ const postMatches = (post, searchTerm) => {
   }
 };
 
-const Posts = ({ posts, token }) => {
+const Posts = ({ posts }) => {
   const history = useHistory();
   const { postId } = useParams();
 
@@ -40,18 +40,14 @@ const Posts = ({ posts, token }) => {
 
   const postsToDisplay = posts.filter((post) => postMatches(post, searchTerm));
 
-  const handleClick = (event) => {
-    event.preventDefault();
-    {token ? <SendMessage /> : ''}
-  }
   return (
     <>
       <div style={styles.searchContainer}>
         <h2>Posts</h2>
         <input
           style={styles.searchInput}
-          type="text"
-          placeholder="search for posts"
+          type='text'
+          placeholder='search for posts'
           value={searchTerm}
           onChange={(event) => {
             console.log(event.target.value);
@@ -61,18 +57,15 @@ const Posts = ({ posts, token }) => {
       </div>
       {postsToDisplay.length ? (
         postsToDisplay.map((post) => (
-          <div key={post._id} style={{ border: '1px solid black' }}>
-            <h5>{post.title}</h5>
-            <div>Posted by: {post.author.username}</div>
-            <div>Description: {post.description}</div>
-            <div>Location: {post.location}</div>
-            <button onClick={() => history.push(`/posts/${post._id}`)}>
-              View Post
-            </button>
-            {token ? <button onClick={handleClick}>
-              Send Message
-            </button> : ''}
-          </div>
+          <Card style={{ width: '100rem' }}>
+            <div key={post._id} style={{ border: '1px solid black' }}>
+              <h5>{post.title}</h5>
+              <div>Posted by: {post.author.username}</div>
+              <div>Description: {post.description}</div>
+              <div>Location: {post.location}</div>
+              <Button variant='secondary' onClick={() => history.push(`/posts/${post._id}`)}>View Post</Button>
+            </div>
+          </Card>
         ))
       ) : (
         <div>No posts to display</div>
