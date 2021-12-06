@@ -8,7 +8,7 @@ const SinglePost = ({ posts, token, setPosts, userData }) => {
   const history = useHistory();
 
   const post = posts.find((post) => postId === post._id);
-  console.log('SINGLE POST', post);
+  // console.log('SINGLE POST', post);
 
   const isUser = userData.username === post.author.username;
 

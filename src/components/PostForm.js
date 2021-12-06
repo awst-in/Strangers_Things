@@ -23,7 +23,7 @@ const PostForm = ({ token, setPosts, posts, action }) => {
 
     event.preventDefault();
     try {
-        console.log('submitted')
+        // console.log('submitted')
         const {
             data: { post },
         } = await callApi({

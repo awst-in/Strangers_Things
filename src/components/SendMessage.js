@@ -15,7 +15,7 @@ const SendMessage = ({ token }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log('message sent');
+      // console.log('message sent');
       await callApi({
         url: API_URL,
         method: method,

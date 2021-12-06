@@ -39,13 +39,13 @@ const App = () => {
       return;
     }
     const data = await fetchUserData(token);
-    console.log('data:', data);
+    // console.log('data:', data);
     if (data && data.username) {
       setUserData(data);
     }
   }, [token]);
 
-  console.log('token:', token);
+  // console.log('token:', token);
 
   return (
     <>

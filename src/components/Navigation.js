@@ -11,6 +11,7 @@ const linkStyle = {
   color: 'black',
   alignItems: 'flex-end'
 }
+
 const Navigation = ({ token }) => {
   const history = useHistory();
   const handleClick = async () => {
