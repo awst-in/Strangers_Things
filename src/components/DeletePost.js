@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { callApi } from '../api';
 import { Button } from 'react-bootstrap'
 
-const DeletePost = ({ token, setPosts }) => {
+const DeletePost = ({ token }) => {
   const history = useHistory();
   const { postId } = useParams();
 

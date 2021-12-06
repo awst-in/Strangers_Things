@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { callApi } from '../api';
-import { Button, Form, Col } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 
 const SendMessage = ({ token }) => {
   const [userMessage, setUserMessage] = useState('');
@@ -42,7 +42,7 @@ const SendMessage = ({ token }) => {
             ></textarea>
           </Col>
           <br />
-          <button>Send</button>
+          <Button variant='secondary'>Send</Button>
         </form>
       ) : (
         ''

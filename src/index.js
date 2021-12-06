@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { callApi } from './api';
-import { AccountForm, Posts, SinglePost, Navigation, PostForm, SendMessage, Profile, Search } from './components';
+import { AccountForm, Posts, SinglePost, Navigation, PostForm, SendMessage, Profile } from './components';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -48,25 +49,25 @@ const App = () => {
 
   return (
     <>
-      <Navigation token={token} setToken={setToken} setPosts={setPosts}/>
+      <Navigation token={token} setToken={setToken} userData={userData} setUserData={setUserData}/>
       <Switch>
         <Route exact path='/'>
           <Posts posts={posts} token={token}/>
         </Route>
         <Route exact path='/profile'>
-          {userData.username && <><div>Hello {userData.username}</div><Profile messages={messages} token={token}/></>}
+          <Profile messages={messages} token={token} userData={userData}/>
         </Route>
         <Route exact path='/posts'>
           <Posts posts={posts} token={token} />
         </Route>
         <Route path='/posts/new'>
-          {token ? <PostForm token={token} setPosts={setPosts} posts={posts} action='add' /> : 'You are not logged in!'}
+          {token ? <PostForm token={token} setPosts={setPosts} posts={posts} action='add' /> : 'You must be logged in to add a post!'}
         </Route>
         <Route path='/posts/:postId/edit'>
           {token ? <PostForm token={token} setPosts={setPosts} posts={posts} action='edit' /> : ''}
         </Route>
         <Route path='/posts/:postId'>
-          <SinglePost posts={posts} token={token} />
+          <SinglePost posts={posts} token={token} userData={userData}/>
         </Route>
         <Route path='/posts/:postId/messages'>
           {token ? <SendMessage posts={posts} token={token} messages={messages} setMessages={setMessages}/> : ''}

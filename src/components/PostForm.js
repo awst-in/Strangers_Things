@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { callApi } from '../api';
 import { useHistory, useParams } from 'react-router-dom';
+import { Button, Container } from 'react-bootstrap';
 
 const PostForm = ({ token, setPosts, posts, action }) => {
     const { postId } = useParams();
@@ -61,6 +62,7 @@ const PostForm = ({ token, setPosts, posts, action }) => {
 };
 
   return (
+    <Container>
     <div>
         <h2>{title}</h2>
       <form onSubmit={handleSubmit}>
@@ -104,9 +106,10 @@ const PostForm = ({ token, setPosts, posts, action }) => {
         ></input>
         <br />
 
-        {token ? <button type='submit'>{title}</button> : ''}
+        {token ? <Button variant='secondary' type='submit'>{title}</Button> : ''}
       </form>
     </div>
+    </Container>
   );
 };
 

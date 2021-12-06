@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
-import { Stack, Button, Navbar, Container, Nav } from 'react-bootstrap';
-import { Search } from '.';
+import { useHistory } from 'react-router-dom';
+import { Navbar, Nav } from 'react-bootstrap';
 
 
 const linkStyle = {
@@ -12,8 +12,10 @@ const linkStyle = {
   alignItems: 'flex-end'
 }
 const Navigation = ({ token }) => {
+  const history = useHistory();
   const handleClick = async () => {
     localStorage.removeItem('token');
+    history.push('/');
     window.location.reload(false);
   };
 

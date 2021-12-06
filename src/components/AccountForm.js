@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { callApi } from '../api';
+import { Container, Button } from 'react-bootstrap'
 
-const AccountForm = ({ action, setToken, setUserData }) => {
+const AccountForm = ({ action, setToken }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const isLogin = action === 'login';
@@ -32,6 +33,7 @@ const AccountForm = ({ action, setToken, setUserData }) => {
 
   return (
     <>
+    <Container style={{padding: '1px'}}>
       <h2>{title}</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -46,10 +48,11 @@ const AccountForm = ({ action, setToken, setUserData }) => {
           placeholder="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-        ></input>
-        <button type="submit">{title}</button>
+        ></input>{' '}<br />
+        <Button variant='secondary' type="submit">{title}</Button>
       </form>
       <Link to={`/${oppositeAction}`}>{oppositeTitle}</Link>
+      </Container>
     </>
   );
 };

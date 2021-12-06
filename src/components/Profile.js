@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { callApi } from '../api';
-import { Button, Collapse, Card } from 'react-bootstrap';
+import { Button, Collapse, Card, Container } from 'react-bootstrap';
 
-const Profile = ({ token }) => {
+const Profile = ({ token, userData }) => {
   const [myMessages, setMyMessages] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -25,13 +25,15 @@ const Profile = ({ token }) => {
 
   return (
     <>
+    <Container>
       <div>
+        <h2>Hello {userData.username}!</h2>
         <Button variant='secondary' onClick={getMessages} aria-controls='example-collapse-text' aria-expanded={open}>
           Get Messages
         </Button>
         {myMessages.map((message) => (
           <Collapse in={open} dimension='width'>
-            <Card body style={{ width: '500px' }}>
+            <Card body style={{ width: '90%' }} className='mb-2'>
               <div key={message._id} style={{ minHeight: '150px' }}>
                 <h3>From: {message.fromUser.username}</h3>
                 <h4>Post: {message.post.title}</h4>
@@ -41,6 +43,7 @@ const Profile = ({ token }) => {
           </Collapse>
         ))}
       </div>
+    </Container>
     </>
   );
 };

@@ -20,7 +20,7 @@ const postMatches = (post, searchTerm) => {
     description,
     location,
     title,
-    author: { username },
+    author: { username }
   } = post;
 
   const toMatch = [description, location, title, username];
@@ -57,8 +57,8 @@ const Posts = ({ posts }) => {
       </div>
       {postsToDisplay.length ? (
         postsToDisplay.map((post) => (
-          <Card style={{ width: '100rem' }}>
-            <div key={post._id} style={{ border: '1px solid black' }}>
+          <Card style={{ width: 'auto' }}>
+            <div key={post._id} style={{ width: 'auto', padding: '10px' }}>
               <h5>{post.title}</h5>
               <div>Posted by: {post.author.username}</div>
               <div>Description: {post.description}</div>
