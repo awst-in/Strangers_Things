@@ -1,7 +1,7 @@
 {
   "name": "strangers_things",
   "version": "1.0.0",
-  "description": "",
+  "description": "Craigslist-lite",
   "main": "index.js",
   "scripts": {
     "start": "CHOKIDAR_USEPOLLING=true react-scripts start",

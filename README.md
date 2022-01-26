@@ -1,1 +1,3 @@
 # strangers-things
+
+npm start
