@@ -17,6 +17,7 @@ const Profile = ({ token, userData }) => {
         token,
       });
       const messageArr = data.data.messages;
+      console.log('data:', data);
       setMyMessages(messageArr);
     } catch (error) {
       console.error(error);
@@ -25,25 +26,30 @@ const Profile = ({ token, userData }) => {
 
   return (
     <>
-    <Container>
-      <div>
-        <h2>Hello {userData.username}!</h2>
-        <Button variant='secondary' onClick={getMessages} aria-controls='example-collapse-text' aria-expanded={open}>
-          Get Messages
-        </Button>
-        {myMessages.map((message) => (
-          <Collapse in={open} dimension='width'>
-            <Card body style={{ width: '90%' }} className='mb-2'>
-              <div key={message._id} style={{ minHeight: '150px' }}>
-                <h3>From: {message.fromUser.username}</h3>
-                <h4>Post: {message.post.title}</h4>
-                <p>"{message.content}"</p>
-              </div>
-            </Card>
-          </Collapse>
-        ))}
-      </div>
-    </Container>
+      <Container>
+        <div>
+          <h2>Hello {userData.username}!</h2>
+          <Button
+            variant='secondary'
+            onClick={getMessages}
+            aria-controls='example-collapse-text'
+            aria-expanded={open}
+          >
+            Get Messages
+          </Button>
+          {myMessages.map((message) => (
+            <Collapse in={open} dimension='width'>
+              <Card body style={{ width: '90%' }} className='mb-2'>
+                <div key={message._id} style={{ minHeight: '150px' }}>
+                  <h3>From: {message.fromUser.username}</h3>
+                  <h4>Post: {message.post.title}</h4>
+                  <p>"{message.content}"</p>
+                </div>
+              </Card>
+            </Collapse>
+          ))}
+        </div>
+      </Container>
     </>
   );
 };
